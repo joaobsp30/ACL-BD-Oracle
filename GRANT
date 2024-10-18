@@ -1,0 +1,16 @@
+DECLARE
+NM_ACL VARCHAR2(30) := 'soulmv_services.xml';
+NM_PRINCIPAL VARCHAR2(30) := NULL;
+BEGIN
+DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE(
+ ACL => NM_ACL,
+ PRINCIPAL => NM_PRINCIPAL,
+ IS_GRANT => true,
+ privilege => 'resolve' );
+ DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE(
+ ACL => NM_ACL,
+ PRINCIPAL => NM_PRINCIPAL,
+ IS_GRANT => true,
+ privilege => 'connect' );
+END;
+COMMIT;
