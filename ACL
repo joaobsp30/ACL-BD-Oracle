@@ -1,0 +1,62 @@
+DECLARE
+----------------------------------------------------------------------------
+--
+----------------------------------------------------------------------------
+--
+ -- Estes parametro precisa ser ajustado obrigatoriamente
+ --
+ IP_SERVIDOR VARCHAR2(30) := 'smtp.terra.com.br';
+ PORTA_INI NUMBER := NULL;
+ PORTA_FIM NUMBER := NULL;
+ NM_ACL VARCHAR2(30) := 'soulmv_services.xml';
+BEGIN
+DBMS_NETWORK_ACL_ADMIN.CREATE_ACL(
+ ACL => NM_ACL,
+ DESCRIPTION => 'SoulMV Envio Email',
+ PRINCIPAL => 'DBASGU',
+ IS_GRANT => true,
+ privilege => 'connect' );
+ DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE(
+ ACL => NM_ACL,
+ PRINCIPAL => 'DBASGU',
+ IS_GRANT => true,
+ privilege => 'resolve' );
+ DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE(
+ ACL => NM_ACL,
+ PRINCIPAL => 'DBAMV',
+ IS_GRANT => true,
+ privilege => 'resolve' );
+ DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE(
+ ACL => NM_ACL,
+ PRINCIPAL => 'DBAMV',
+ IS_GRANT => true,
+ privilege => 'connect' );
+ DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE(
+ ACL => NM_ACL,
+ PRINCIPAL => 'MVINTEGRA',
+ IS_GRANT => true,
+ privilege => 'resolve' );
+ DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE(
+ ACL => NM_ACL,
+ PRINCIPAL => 'MVINTEGRA',
+ IS_GRANT => true,
+ privilege => 'connect' );
+ DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE(
+ ACL => NM_ACL,
+ PRINCIPAL => 'MV2000',
+ IS_GRANT => true,
+ privilege => 'resolve' );
+
+ DBMS_NETWORK_ACL_ADMIN.ADD_PRIVILEGE(
+ ACL => NM_ACL,
+ PRINCIPAL => 'MV2000',
+ IS_GRANT => true,
+ privilege => 'connect' );
+ DBMS_NETWORK_ACL_ADMIN.ASSIGN_ACL(
+ ACL => NM_ACL,
+ host => IP_SERVIDOR,
+ lower_port => PORTA_INI,
+ upper_port => PORTA_FIM);
+COMMIT;
+END;
+/
