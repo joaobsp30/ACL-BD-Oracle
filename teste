@@ -1,0 +1,25 @@
+DECLARE
+ vDE varchar2(30) := 'XXXXXXXXXXXXXXXXXX'; -- email de teste remetente
+ vPARA varchar2(30) := 'XXXXXXXXXXXXXX'; --email de teste destinatario
+ EmailServer varchar2(30) := 'XXXXXXXXXX'; --IP servidor de EMAIL;
+ PORTA number := 25; --porta
+ conn UTL_SMTP.CONNECTION;
+ crlf VARCHAR2(2):= CHR(13) || CHR(10);
+ mesg VARCHAR2(4000);
+BEGIN
+ conn:= utl_smtp.open_connection(EmailServer,PORTA);
+ utl_smtp.helo(conn,EmailServer);
+ utl_smtp.mail(conn, vDe);
+ utl_smtp.rcpt(conn,vPARA);
+ mesg:=
+ 'From:'||vDE|| crlf ||
+ 'Subject: Teste de e-mail enviado pelo Servidor Oracle' || crlf ||
+ 'To: '||vPARA || crlf ||
+ '' || crlf ||
+ 'Este e-mail foi enviado pelo servidor de banco de dados Oracle';
+ utl_smtp.data(conn,mesg);
+ utl_smtp.quit(conn);
+ END;
+
+
+
